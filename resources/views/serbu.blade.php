@@ -18,6 +18,19 @@
     <!-- HEADER -->
     @include('partials.header')
 
+    <!-- Button Active -->
+    <div class="mission-tabs">
+        <a href="{{ url('/serbu') }}"
+        class="mission-tab {{ request()->is('serbu') ? 'active' : '' }}">
+            Berjalan
+        </a>
+
+        <a href="{{ url('/serbu-ach') }}"
+        class="mission-tab {{ request()->is('serbu-ach') ? 'active' : '' }}">
+            Selesai
+        </a>
+    </div>
+
     <div class="content-wrapper">
 
         @if (isset($missionData['high_productivity']))
@@ -96,26 +109,28 @@
         @endif
 
         @if (isset($missionData['ono']))
-            <div class="mission-card">
-                <div class="mission-banner">
-                    <img src="{{ asset('assets/banner/3ID - ONO.png') }}">
-                </div>
+            <a href="{{ url('/outlet-baru') }}" class="mission-link">
+                <div class="mission-card">
+                    <div class="mission-banner">
+                        <img src="{{ asset('assets/banner/3ID - ONO.png') }}">
+                    </div>
 
-                <div class="mission-body">
-                    <div>
-                        <div class="mission-title">Low Stock</div>
-                        <div class="mission-reward">
-                            {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
-                            hit lagi untuk mendapatkan
-                            IDR {{ number_format($missionData['ono']['incentive'], 0, ',', '.') }}
+                    <div class="mission-body">
+                        <div>
+                            <div class="mission-title">ONO</div>
+                            <div class="mission-reward">
+                                {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
+                                hit lagi untuk mendapatkan
+                                IDR {{ number_format($missionData['ono']['incentive'], 0, ',', '.') }}
+                            </div>
+                        </div>
+
+                        <div class="mission-action">
+                            <i class="bi bi-chevron-right"></i>
                         </div>
                     </div>
-
-                    <div class="mission-action">
-                        <i class="bi bi-chevron-right"></i>
-                    </div>
                 </div>
-            </div>
+            </a>
         @endif
 
         <!-- PROGRAM -->

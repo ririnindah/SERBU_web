@@ -1,0 +1,125 @@
+
+.section-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 15px;
+    margin-top: 20px;
+    padding: 8px 12px;
+    display: flex;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f6f7fb;
+}
+
+/* Wrapper */
+.ach-wrapper {
+    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Card */
+.ach-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 12px 14px;
+    width: 100%;
+    max-width: 300px;   /* 🔥 LEBIH KECIL */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+}
+
+/* Title */
+.ach-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;     /* 🔥 kecil */
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.ach-icon {
+    width: 27px;         /* 🔥 kecil */
+    height: 27px;
+    border-radius: 50%;
+    background: #7bcfc3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.ach-emoji {
+    font-size: 14px;
+}
+
+/* Description */
+.ach-desc {
+    font-size: 11px;     /* 🔥 kecil */
+    color: #4b5563;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+/* Reward */
+.ach-reward {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;     /* 🔥 kecil */
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.ach-reward .gift {
+    font-size: 15px;     /* 🔥 kecil */
+}
+
+.incentive-summary {
+    margin: 6px 12px 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    background: #ffffff;
+    border-left: 4px solid #7bcfc3;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.incentive-summary span {
+    margin-left: 6px;
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.mission-tabs {
+    display: flex;
+    background: #eef2f7;
+    border-radius: 999px;
+    padding: 4px;
+    margin: 12px;
+    gap: 4px;
+}
+
+.mission-tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+
+.mission-tab.active {
+    background: #EC008C; /* biru tua */
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+}

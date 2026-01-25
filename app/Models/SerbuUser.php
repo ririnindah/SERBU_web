@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SerbuUser extends Model
+class SerbuUser extends Authenticatable
 {
     protected $table = 'serbu_users';
 
@@ -26,6 +27,11 @@ class SerbuUser extends Model
     public function Ono()
     {
         return $this->hasMany(Ono::class, 'outlet_id', 'outlet_id');
+    }
+
+    public function Koin()
+    {
+        return $this->hasMany(Koin::class, 'outlet_id', 'outlet_id');
     }
 
     protected $primaryKey = 'outlet_id';

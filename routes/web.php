@@ -6,6 +6,7 @@ use App\Http\Controllers\LowStockController;
 use App\Http\Controllers\SerbuController;
 use App\Http\Controllers\HighProductivityController;
 use App\Http\Controllers\LowProductivityController;
+use App\Http\Controllers\OnoController;
 use App\Models\HighProductivity;
 
 Route::get('/', function () {
@@ -20,8 +21,11 @@ Route::get('/login', function () {
 
 Route::middleware('auth.session')->group(function () {
     Route::get('/serbu', [SerbuController::class, 'index']);
+    Route::get('/serbu-ach', [SerbuController::class, 'ach']);
 
     Route::get('/low-stock', [LowStockController::class, 'index']);
+
+    Route::get('/outlet-baru', [OnoController::class, 'index']);
 
     Route::get('/high-productivity', [HighProductivityController::class, 'index']);
 

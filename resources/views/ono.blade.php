@@ -22,10 +22,10 @@
         
         <div class="mission-high-productivy">
             <div class="mission-banner">
-                <img src="{{ asset('assets/banner/3ID - High Productivity.png') }}">
+                <img src="{{ asset('assets/banner/banner-landing.png') }}">
             </div>
 
-            <div class="section-title mt-2">High Productivity</div>
+            <div class="section-title mt-2">Outlet Baru</div>
 
             @php
                 $missionFlag = $actual->flag_mission ?? 0;

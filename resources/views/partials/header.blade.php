@@ -191,10 +191,12 @@
             </div>
         </div>
 
+        
+
         <div class="header-right">
             <div class="badge-koin">
                 <i class="bi bi-coin"></i>
-                {{ number_format(session('user.coin') ?? 125000, 0, ',', '.') }}
+                {{ number_format($userCoin, 0, ',', '.') }}
             </div>
 
             <div class="user-pill">
