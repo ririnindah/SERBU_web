@@ -119,7 +119,16 @@ body {
 }
 
 .mission-tab.active {
-    background: #EC008C; /* biru tua */
     color: #ffffff;
     box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+}
+
+/* brand */
+.brand-3id.mission-tab.active {
+    background: #EC008C;
+}
+
+.brand-im3.mission-tab.active {
+    background: #FFCB05;
+    color: #000; /* opsional biar kebaca */
 }

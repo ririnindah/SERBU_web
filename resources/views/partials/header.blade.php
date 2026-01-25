@@ -179,23 +179,44 @@
         background: #ffffff;
         transition: width 5s linear;
     }
+
+    .icon-coin {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        vertical-align: middle;
+    }
 </style>
 
 </head>
 <body>
 
     <div class="app-header">
+
+        @php
+            $brand = session('user.brand') ?? 'IM3';
+            $maxKv = 5;
+
+            $stories = [];
+
+            for ($i = 1; $i <= $maxKv; $i++) {
+                $path = public_path("assets/KV/{$brand}-KV{$i}.png");
+
+                if (file_exists($path)) {
+                    $stories[] = asset("assets/KV/{$brand}-KV{$i}.png");
+                }
+            }
+        @endphp
+
         <div class="header-left">
             <div class="story-btn" onclick="openStory()">
                 <img src="{{ asset('assets/icon/icon.png') }}" alt="Story">
             </div>
         </div>
 
-        
-
         <div class="header-right">
             <div class="badge-koin">
-                <i class="bi bi-coin"></i>
+                <img src="{{ asset('assets/icon/koin.png') }}" alt="Koin" class="icon-coin">
                 {{ number_format($userCoin, 0, ',', '.') }}
             </div>
 
@@ -246,13 +267,7 @@
         popup.onclick = e => e.stopPropagation();
 
         /* STORY DATA */
-        const stories = [
-            "{{ asset('assets/KV/IM3-KV1.png') }}",
-            "{{ asset('assets/KV/IM3-KV2.png') }}",
-            "{{ asset('assets/KV/IM3-KV3.png') }}",
-            "{{ asset('assets/KV/IM3-KV4.png') }}",
-            "{{ asset('assets/KV/IM3-KV5.png') }}"
-        ];
+        const stories = @json($stories);
 
         let storyIndex = 0;
         let storyTimeout;

@@ -18,15 +18,34 @@
     <!-- HEADER -->
     @include('partials.header')
 
+    @php
+        $brandClass = session('user.brand') === '3ID'
+            ? 'brand-3id'
+            : (session('user.brand') === 'IM3' ? 'brand-im3' : '');
+
+
+        $brand = session('user.brand') ?? 'IM3';
+        $maxBanner = 5;
+        $banners = [];
+
+        for ($i = 1; $i <= $maxBanner; $i++) {
+            $path = public_path("assets/banner/banner-{$i}-{$brand}.png");
+
+            if (file_exists($path)) {
+                $banners[] = asset("assets/banner/banner-{$i}-{$brand}.png");
+            }
+        }
+    @endphp
+
     <!-- Button Active -->
     <div class="mission-tabs">
         <a href="{{ url('/serbu') }}"
-        class="mission-tab {{ request()->is('serbu') ? 'active' : '' }}">
+        class="mission-tab {{ $brandClass }} {{ request()->is('serbu') ? 'active' : '' }}">
             Berjalan
         </a>
 
         <a href="{{ url('/serbu-ach') }}"
-        class="mission-tab {{ request()->is('serbu-ach') ? 'active' : '' }}">
+        class="mission-tab {{ $brandClass }} {{ request()->is('serbu-ach') ? 'active' : '' }}">
             Selesai
         </a>
     </div>
@@ -37,12 +56,12 @@
             <a href="{{ url('/high-productivity') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/3ID - High Productivity.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - High Productivity.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">High Productivity</div>
+                            <div class="mission-title">Misi Kejar Target</div>
                             <div class="mission-reward">
                                 IDR {{ number_format($missionData['high_productivity']['remaining'], 0, ',', '.') }}
                                 lagi untuk mendapatkan
@@ -62,12 +81,12 @@
             <a href="{{ url('/low-productivity') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/3ID - Low Productivity.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">Low Productivity</div>
+                            <div class="mission-title">Misi Kejar Transaksi</div>
                             <div class="mission-reward">
                                 IDR {{ number_format($missionData['low_productivity']['remaining'], 0, ',', '.') }}
                                 lagi untuk mendapatkan
@@ -87,12 +106,12 @@
             <a href="{{ url('/low-stock') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/3ID - Low Stock.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Stock.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">Low Stock</div>
+                            <div class="mission-title">Misi Kejar Target Saldo</div>
                             <div class="mission-reward">
                                 {{ number_format($missionData['low_stock']['remaining'], 0, ',', '.') }}
                                 hari lagi untuk mendapatkan
@@ -112,12 +131,12 @@
             <a href="{{ url('/outlet-baru') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/3ID - ONO.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - ONO.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">ONO</div>
+                            <div class="mission-title">Outlet Baru</div>
                             <div class="mission-reward">
                                 {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
                                 hit lagi untuk mendapatkan
@@ -139,19 +158,22 @@
         <div class="banner-wrapper">
             <div id="serbuCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active"><img src="{{ asset('assets/banner/banner-1.png') }}"></div>
-                    <div class="carousel-item"><img src="{{ asset('assets/banner/banner-2.png') }}"></div>
-                    <div class="carousel-item"><img src="{{ asset('assets/banner/banner-3.png') }}"></div>
-                    <div class="carousel-item"><img src="{{ asset('assets/banner/banner-4.png') }}"></div>
+                    @foreach ($banners as $index => $banner)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ $banner }}" class="d-block w-100" alt="Banner {{ $index + 1 }}">
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
 
-        <div class="indicator-pill">
-            <button class="active"></button>
-            <button></button>
-            <button></button>
-            <button></button>
+        <div class="indicator-pill" id="carouselIndicators">
+            @foreach ($banners as $index => $banner)
+                <button 
+                    class="{{ $index === 0 ? 'active' : '' }}" 
+                    data-slide="{{ $index }}">
+                </button>
+            @endforeach
         </div>
 
     </div>

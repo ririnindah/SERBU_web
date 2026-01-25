@@ -18,15 +18,21 @@
         <!-- HEADER -->
         @include('partials.header')
 
+        @php
+            $brandClass = session('user.brand') === '3ID'
+                ? 'brand-3id'
+                : (session('user.brand') === 'IM3' ? 'brand-im3' : '');
+        @endphp
+
         <!-- Button Active -->
         <div class="mission-tabs">
             <a href="{{ url('/serbu') }}"
-            class="mission-tab {{ request()->is('serbu') ? 'active' : '' }}">
+            class="mission-tab {{ $brandClass }} {{ request()->is('serbu') ? 'active' : '' }}">
                 Berjalan
             </a>
 
             <a href="{{ url('/serbu-ach') }}"
-            class="mission-tab {{ request()->is('serbu-ach') ? 'active' : '' }}">
+            class="mission-tab {{ $brandClass }} {{ request()->is('serbu-ach') ? 'active' : '' }}">
                 Selesai
             </a>
         </div>
@@ -40,7 +46,20 @@
 
         @foreach ($achMissions as $mission)
 
-            <div class="section-title mt-2">{{ $mission['label'] }}</div>
+            @php
+                $labelMap = [
+                    'High Productivity' => 'Misi Kejar Target',
+                    'Low Productivity'  => 'Misi Kejar Transaksi',
+                    'Low Stock'         => 'Misi Kejar Target Saldo',
+                    'ONO'               => 'Outlet Baru',
+                ];
+
+                $label = $labelMap[$mission['label']] ?? $mission['label'];
+            @endphp
+
+            <div class="section-title mt-2">
+                {{ $label }}
+            </div>
 
             @for ($level = 1; $level <= ($mission['max_flag'] - 1); $level++)
                 @php
@@ -66,13 +85,13 @@
                         <div class="ach-reward">
                             <span class="gift">🎁</span>
                             <span>
-                                <strong>Incentive IDR {{ number_format($incentive,0,',','.') }}</strong> berhasil diklaim.
+                                <strong>KOIN {{ number_format($incentive,0,',','.') }}</strong> berhasil diklaim.
                             </span>
                         </div>
 
                         {{-- opsional: tampilkan level --}}
                         <div class="mt-1" style="font-size:12px;color:#6b7280;">
-                            Level {{ $level }}
+                            Misi {{ $level }}
                         </div>
 
                     </div>
