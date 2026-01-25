@@ -1,0 +1,61 @@
+body {
+            background-color: #ffffff; /* FULL PUTIH */
+        }
+
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 900px;
+            height: 500px;
+
+            /* TRANSPARENT CARD */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,.12);
+        }
+
+        .login-left {
+            padding: 60px;
+        }
+
+        .login-right {
+            background: linear-gradient(135deg, #32BCAD, #2aa79a);
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: #32BCAD;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .btn-login:hover {
+            background-color: #2aa79a;
+            color: #fff;
+        }
+
+        .form-control {
+            height: 48px;
+            border-radius: 8px;
+            background: rgba(242, 242, 242, 0.9);
+            border: none;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(50, 188, 173, 0.25);
+        }

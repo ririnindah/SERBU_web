@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('high_productivity', function (Blueprint $table) {
+            $table->id();
+            $table->string('uuid',30);
+            $table->string('outlet_id',8);
+            $table->string('outlet_name', 150);
+            $table->string('brand', 3);
+            $table->integer('actual')->default(0);
+            $table->integer('flag_mission')->default(0);
+            $table->integer('mission_status')->default(0);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('high_productivity');
+    }
+};
