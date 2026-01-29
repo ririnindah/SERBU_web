@@ -12,7 +12,7 @@
     <style>
     /* ================= HEADER ================= */
     .app-header {
-        background: #ffffff;
+        background: #fafafa;
         padding: 14px 24px;
         display: flex;
         justify-content: space-between;
@@ -56,7 +56,7 @@
     }
 
     .badge-koin {
-        background: #f3f4f6;
+        background: #ffffff;
         padding: 6px 14px;
         border-radius: 999px;
         font-size: 13px;

@@ -22,14 +22,18 @@
 }
 
 body {
-    margin: 0;
-    background: #f4f4f4;
-    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .app-wrapper {
-    min-height: 100vh;
-    background: #ffffff;
+    width: 100%;
+    max-width: 414px;
+    height: 100dvh;     /* ⬅️ viewport mobile modern */
+    background: #f3f3f3;
+    overflow-y: auto;  /* ⬅️ SCROLL DI SINI */
+    position: relative;
 }
 
 /* SETTINGS */
