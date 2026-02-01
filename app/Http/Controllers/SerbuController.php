@@ -6,97 +6,118 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class SerbuController extends Controller
 {
+
     public function index()
     {
+
         if (!session()->has('user')) {
             return redirect('/login');
         }
 
         $outletId = session('user.outlet_id');
-        $brand    = session('user.brand');
+        $brand = session('user.brand');
 
         $user = DB::table('serbu_users')
             ->where('outlet_id', $outletId)
             ->first();
 
-        // 🔹 Konfigurasi semua misi
+        // Konfigurasi semua misi
         $missions = [
             'low_stock' => [
-                'flag'  => $user->low_stock,
+                'flag' => $user->low_stock,
                 'table' => 'low_stock',
-                'uuid'  => 'low_stock|' . $brand,
+                'uuid' => 'low_stock|' . $brand,
             ],
-            'low_productivity' => [
-                'flag'  => $user->low_productivity,
+            'low_productivity_voucher' => [
+                'flag' => $user->low_productivity_voucher,
                 'table' => 'low_productivity',
-                'uuid'  => 'low_productivity|' . $brand,
+                'uuid' => 'low_productivity_voucher|' . $brand,
+            ],
+            'low_productivity_rebuy' => [
+                'flag' => $user->low_productivity_rebuy,
+                'table' => 'low_productivity_rebuys',
+                'uuid' => 'low_productivity_rebuy|' . $brand,
             ],
             'high_productivity' => [
-                'flag'  => $user->high_productivity, // ✅ FIX
+                'flag' => $user->high_productivity,
                 'table' => 'high_productivity',
-                'uuid'  => 'high_productivity|' . $brand,
+                'uuid' => 'high_productivity|' . $brand,
             ],
             'ono' => [
-                'flag'  => $user->ono,
+                'flag' => $user->ono,
                 'table' => 'ono',
-                'uuid'  => 'ono|' . $brand,
+                'uuid' => 'ono|' . $brand,
             ],
         ];
 
-        // 🔹 Ambil data misi yang aktif
+        // Filter misi aktif saja
+        $activeMissions = array_filter($missions, function ($mission) {
+            return $mission['flag'] == 1;
+        });
+
+        // Optimasi: Ambil semua actual dalam satu query union
+        $actualQueries = [];
+        foreach ($activeMissions as $key => $mission) {
+            $actualQueries[] = DB::table($mission['table'])
+                ->selectRaw("'{$key}' as mission_key, actual, flag_mission")
+                ->where('outlet_id', $outletId);
+        }
+        $actualResults = collect($actualQueries)->reduce(function ($carry, $query) {
+            return $carry ? $carry->unionAll($query) : $query;
+        })->get();
+
+        // Map actual berdasarkan mission_key
+        $actualData = $actualResults->keyBy('mission_key');
+
+        // Optimasi: Ambil semua target dalam satu query
+        $uuids = array_column($activeMissions, 'uuid');
+        $targetResults = DB::table('target')
+            ->whereIn('uuid', $uuids)
+            ->get()
+            ->keyBy('uuid');
+
+        // Ambil data misi yang aktif
         $missionData = [];
-
-        foreach ($missions as $key => $mission) {
-
-            // hanya misi aktif
-            if ($mission['flag'] != 1) {
-                continue;
-            }
-
-            // actual
-            $actual = DB::table($mission['table'])
-                ->where('outlet_id', $outletId)
-                ->first();
-
-            // target
-            $target = DB::table($mission['table'])
-                ->join('target', $mission['table'].'.uuid', '=', 'target.uuid')
-                ->where($mission['table'].'.outlet_id', $outletId)
-                ->where($mission['table'].'.uuid', $mission['uuid'])
-                ->first();
+        foreach ($activeMissions as $key => $mission) {
+            $actual = $actualData->get($key);
+            $target = $targetResults->get($mission['uuid']);
 
             // flag mission (1 / 2 / 3)
-            $missionFlag = $actual->flag_mission ?? 1;
+            $missionFlag = $actual ? ($actual->flag_mission ?? 1) : 1;
 
             // hitung
-            $targetValue = $target->{'target'.$missionFlag} ?? 0;
-            $actualValue = $actual->actual ?? 0;
-            $incentive   = $target->{'incentive'.$missionFlag} ?? 0;
-            $remaining   = max($targetValue - $actualValue, 0);
+            $targetValue = $target ? ($target->{'target' . $missionFlag} ?? 0) : 0;
+            $actualValue = $actual ? ($actual->actual ?? 0) : 0;
+            $incentive = $target ? ($target->{'incentive' . $missionFlag} ?? 0) : 0;
+            $remaining = max($targetValue - $actualValue, 0);
 
-            // simpan data SIAP PAKAI
             $missionData[$key] = [
                 'remaining' => $remaining,
                 'incentive' => $incentive,
             ];
         }
 
-
-        // 🔹 Kirim ke Blade
         return view('serbu', compact('user', 'missionData'));
     }
 
     public function ach()
     {
+        // DB::flushQueryLog();
+        // DB::enableQueryLog();
+
+        // $start = microtime(true);
+
         $outletId = session('user.outlet_id');
-        $brand    = session('user.brand');
+        $brand = session('user.brand');
 
         $missions = [
             'low_stock' => ['table' => 'low_stock', 'label' => 'Low Stock'],
-            'low_productivity' => ['table' => 'low_productivity', 'label' => 'Low Productivity'],
+            'low_productivity_voucher' => ['table' => 'low_productivity', 'label' => 'Low Productivity Voucher'],
+            'low_productivity_rebuy' => ['table' => 'low_productivity_rebuys', 'label' => 'Low Productivity Rebuy'],
             'high_productivity' => ['table' => 'high_productivity', 'label' => 'High Productivity'],
             'ono' => ['table' => 'ono', 'label' => 'ONO'],
         ];
@@ -104,38 +125,78 @@ class SerbuController extends Controller
         $achMissions = [];
         $totalIncentiveAch = 0;
 
-        foreach ($missions as $key => $mission) {
-            // ambil level tertinggi flag_mission untuk outlet+brand
-            $maxFlag = DB::table($mission['table'])
-                ->where('outlet_id', $outletId)
-                ->where('brand', $brand)
-                ->max('flag_mission'); // contoh: 4
+        // 🔥 OPTIMASI: Cache maxFlag per outlet dan brand selama 30 menit (asumsi jarang berubah)
+        // Ini mengurangi query max() menjadi cache hit jika sudah ada
+        $maxFlags = Cache::remember(
+            "max_flags:{$outletId}:{$brand}",
+            now()->addMinutes(30),
+            function () use ($missions, $outletId, $brand) {
+                $flags = [];
+                foreach ($missions as $key => $mission) {
+                    $flags[$key] = DB::table($mission['table'])
+                        ->where('outlet_id', $outletId)
+                        ->where('brand', $brand)
+                        ->max('flag_mission') ?? 0;
+                }
+                return $flags;
+            }
+        );
 
-            // kalau belum ada / belum mencapai level 2, berarti belum ada ACH level
+        foreach ($missions as $key => $mission) {
+            $maxFlag = $maxFlags[$key] ?? 0;
+
             if (!$maxFlag || $maxFlag <= 1) {
                 continue;
             }
 
-            // ambil konfigurasi target & incentive
-            $uuid = $key . '|' . $brand; // contoh: high_productivity|3ID
-            $target = DB::table('target')->where('uuid', $uuid)->first();
+            // 🔥 CACHE TARGET (1 JAM) - tetap dipertahankan
+            $uuid = $key . '|' . $brand;
+
+            $target = Cache::remember(
+                "target:{$uuid}",
+                now()->addHours(1),
+                function () use ($uuid) {
+                    return DB::table('target')->where('uuid', $uuid)->first();
+                }
+            );
 
             if (!$target) continue;
 
-            for ($level = 1; $level <= ($maxFlag - 1); $level++) {
-                $totalIncentiveAch += $target->{'incentive'.$level} ?? 0;
-            }
+            // 🔥 OPTIMASI: Cache perhitungan incentive per uuid selama 1 jam
+            // Ini menghindari loop hitung ulang jika target sudah di-cache
+            $incentiveKey = "incentive:{$uuid}:{$maxFlag}";
+            $incentiveForMission = Cache::remember(
+                $incentiveKey,
+                now()->addHours(1),
+                function () use ($target, $maxFlag) {
+                    $total = 0;
+                    for ($level = 1; $level <= ($maxFlag - 1); $level++) {
+                        $total += (int) ($target->{'incentive' . $level} ?? 0);
+                    }
+                    return $total;
+                }
+            );
+
+            $totalIncentiveAch += $incentiveForMission;
 
             $achMissions[] = [
-                'key'      => $key,
-                'label'    => $mission['label'],
-                'max_flag' => (int) $maxFlag,  // misal 4
-                'target'   => $target,         // punya target1..3 & incentive1..3
+                'key' => $key,
+                'label' => $mission['label'],
+                'max_flag' => (int) $maxFlag,
+                'target' => $target,
             ];
         }
 
+        // $time = round((microtime(true) - $start) * 1000, 2);
+        // $queries = DB::getQueryLog();
+
+        // dd([
+        //     'total_time_ms' => $time,
+        //     'total_query' => count($queries),
+        //     'queries' => $queries, // hapus kalau kepanjangan
+        // ]);
+
         return view('serbu_ach', compact('achMissions', 'totalIncentiveAch'));
     }
-
 
 }

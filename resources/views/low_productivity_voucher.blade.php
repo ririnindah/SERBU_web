@@ -5,6 +5,8 @@
     <title>SERBU Web</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="icon" type="image/png" href="{{ asset('assets/icon/image.png') }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +24,7 @@
         
         <div class="mission-high-productivy">
             <div class="mission-banner">
-                <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity.png') }}">
+                <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity Voucher.png') }}">
             </div>
 
             @php
@@ -77,7 +79,7 @@
                         @if ($sisaHari == 0 && $missionStatus == 1)
                             Selamat anda mendapatkan incentive sebesar
                         @else
-                            Kejar IDR {{ number_format($sisaHari, 0, ',', '.') }} untuk dapatkan incentive
+                            Kejar {{ number_format($sisaHari, 0, ',', '.') }} hit untuk dapatkan incentive
                         @endif
                     </div>
                     {{-- {{ dd($incentive) }} --}}
@@ -123,7 +125,9 @@
                             @endif
                         </div>
 
-                        <div class="step-reward">{{ $reward }}</div>
+                        <div class="step-reward">
+                            {{ number_format($reward, 0, ',', '.') }}
+                        </div>
                         <div class="step-day">Misi {{ $i }}</div>
                     </div>
                 @endfor

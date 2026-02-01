@@ -21,18 +21,14 @@ class AuthController extends Controller
         ]);
 
         $user = DB::table('serbu_users')
+            ->select('id', 'outlet_id', 'outlet_name', 'brand')
             ->where('outlet_id', $request->outlet_id)
+            ->limit(1)
             ->first();
 
-        // Kalau outlet belum terdaftar
         if (!$user) {
             return back()->with('error', 'Outlet ID tidak terdaftar');
         }
-
-        // HIT + 1 (LOGIN DARI DEVICE BARU)
-        DB::table('serbu_users')
-            ->where('id', $user->id)
-            ->increment('hit');
 
         // SIMPAN SESSION
         Session::put('user', [

@@ -6,6 +6,7 @@ use App\Http\Controllers\LowStockController;
 use App\Http\Controllers\SerbuController;
 use App\Http\Controllers\HighProductivityController;
 use App\Http\Controllers\LowProductivityController;
+use App\Http\Controllers\LowProductivityRebuyController;
 use App\Http\Controllers\OnoController;
 use App\Models\HighProductivity;
 
@@ -29,7 +30,9 @@ Route::middleware('auth.session')->group(function () {
 
     Route::get('/high-productivity', [HighProductivityController::class, 'index']);
 
-    Route::get('/low-productivity', [LowProductivityController::class, 'index']);
+    Route::get('/low-productivity-voucher', [LowProductivityController::class, 'index']);
+
+    Route::get('/low-productivity-rebuy', [LowProductivityRebuyController::class, 'index']);
 
     Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');

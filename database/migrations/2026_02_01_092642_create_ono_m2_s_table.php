@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('koins', function (Blueprint $table) {
+        Schema::create('ono_m2_s', function (Blueprint $table) {
             $table->id();
-            $table->string('outlet_id', 8);
-            $table->string('brand', 3);
-            $table->integer(column: 'koin')->default(0);
-
-            $table->unique(['outlet_id']);
-            $table->index(['outlet_id']);
+            $table->timestamps();
         });
     }
 
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('koins');
+        Schema::dropIfExists('ono_m2_s');
     }
 };

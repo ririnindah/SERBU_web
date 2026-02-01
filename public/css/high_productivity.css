@@ -347,7 +347,7 @@ body {
 
 /* DEFAULT */
 .mission-step:not(.done):not(.active) .step-icon {
-    background: #f3f4f6;
+    background: #ffffff;
 }
 
 @media (min-width: 1200px) {

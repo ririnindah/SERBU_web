@@ -11,6 +11,12 @@ class HighProductivityController extends Controller
 {
     public function index()
     {
+
+        // DB::flushQueryLog();
+        // DB::enableQueryLog();
+
+        // $start = microtime(true);
+
         if (!session()->has('user')) {
             return redirect('/login');
         }
@@ -27,8 +33,17 @@ class HighProductivityController extends Controller
             ->first();
 
         $actual = DB::table('high_productivity')
-            ->where('outlet_id', $outletId)
-            ->first();
+        ->where('outlet_id', $outletId)
+        ->first();
+
+        // $time = round((microtime(true) - $start) * 1000, 2);
+        // $queries = DB::getQueryLog();
+
+        // dd([
+        //     'total_time_ms' => $time,
+        //     'total_query' => count($queries),
+        //     'queries' => $queries, // hapus kalau kepanjangan
+        // ]);
 
         return view('high_productivity', compact('target', 'actual'));
     }

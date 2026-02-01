@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/high_productivity.css') }}">
 
-
 </head>
 <body>
 
@@ -25,7 +24,7 @@
         
         <div class="mission-high-productivy">
             <div class="mission-banner">
-                <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Stock.png') }}">
+                <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity Rebuy.png') }}">
             </div>
 
             @php
@@ -50,10 +49,9 @@
                 $sisaHari = max(($targetValue) - ($actual->actual ?? 0), 0);
             @endphp
 
-            <div class="section-title mt-2">Misi Kejar Target Saldo</div>
+            <div class="section-title mt-2">Misi Kejar Transaksi Rebuy</div>
 
-
-            {{-- MISI --}}
+                        {{-- MISI --}}
             <div class="mission-label">
                 Misi {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
             </div>
@@ -81,7 +79,7 @@
                         @if ($sisaHari == 0 && $missionStatus == 1)
                             Selamat anda mendapatkan incentive sebesar
                         @else
-                            Kejar IDR {{ number_format($sisaHari, 0, ',', '.') }} untuk dapatkan incentive
+                            Kejar {{ number_format($sisaHari, 0, ',', '.') }} hit untuk dapatkan incentive
                         @endif
                     </div>
                     {{-- {{ dd($incentive) }} --}}

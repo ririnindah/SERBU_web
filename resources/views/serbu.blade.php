@@ -6,6 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="icon" type="image/png" href="{{ asset('assets/icon/image.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -79,20 +80,45 @@
             </a>
         @endif
 
-        @if (isset($missionData['low_productivity']))
-            <a href="{{ url('/low-productivity') }}" class="mission-link">
+        @if (isset($missionData['low_productivity_voucher']))
+            <a href="{{ url('/low-productivity-voucher') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity Voucher.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">Misi Kejar Transaksi</div>
+                            <div class="mission-title">Misi Kejar Transaksi Voucher</div>
                             <div class="mission-reward">
-                                IDR {{ number_format($missionData['low_productivity']['remaining'], 0, ',', '.') }}
-                                lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['low_productivity']['incentive'], 0, ',', '.') }}
+                                {{ number_format($missionData['low_productivity_voucher']['remaining'], 0, ',', '.') }}
+                                hit lagi untuk mendapatkan
+                                IDR {{ number_format($missionData['low_productivity_voucher']['incentive'], 0, ',', '.') }}
+                            </div>
+                        </div>
+
+                        <div class="mission-action">
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        @endif
+
+        @if (isset($missionData['low_productivity_rebuy']))
+            <a href="{{ url('/low-productivity-rebuy') }}" class="mission-link">
+                <div class="mission-card">
+                    <div class="mission-banner">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity Rebuy.png') }}">
+                    </div>
+
+                    <div class="mission-body">
+                        <div>
+                            <div class="mission-title">Misi Kejar Transaksi Rebuy</div>
+                            <div class="mission-reward">
+                                {{ number_format($missionData['low_productivity_rebuy']['remaining'], 0, ',', '.') }}
+                                hit lagi untuk mendapatkan
+                                IDR {{ number_format($missionData['low_productivity_rebuy']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>
 
@@ -140,8 +166,8 @@
                         <div>
                             <div class="mission-title">Outlet Baru</div>
                             <div class="mission-reward">
-                                {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
-                                hit lagi untuk mendapatkan
+                                IDR {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
+                                sellin lagi untuk mendapatkan
                                 IDR {{ number_format($missionData['ono']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>

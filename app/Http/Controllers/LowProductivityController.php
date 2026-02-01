@@ -18,7 +18,7 @@ class LowProductivityController extends Controller
         $outletId = session('user.outlet_id');
         $brand = session('user.brand');
 
-        $uuid = 'low_productivity|' . $brand;
+        $uuid = 'low_productivity_voucher|' . $brand;
 
         $target = DB::table('low_productivity')
             ->join('target', 'low_productivity.uuid', '=', 'target.uuid')
@@ -30,6 +30,6 @@ class LowProductivityController extends Controller
             ->where('outlet_id', $outletId)
             ->first();
 
-        return view('low_productivity', compact('target', 'actual'));
+        return view('low_productivity_voucher', compact('target', 'actual'));
     }
 }

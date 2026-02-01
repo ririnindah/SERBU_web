@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('target', function (Blueprint $table) {
             $table->id();
             $table->string('uuid',30);
-            $table->string('program',20);
+            $table->string('program',30);
             $table->string('brand', 3);
             $table->integer('target1')->default(0);
             $table->integer('incentive1')->default(0);

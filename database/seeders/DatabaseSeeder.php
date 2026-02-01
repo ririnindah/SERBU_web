@@ -20,7 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TargetSeeder::class,
             SerbuUserSeeder::class,
-            HighProductivitySeeder::class
+            HighProductivitySeeder::class,
+            LowProductivitySeeder::class,
+            LowProductivityRebuySeeder::class,
+            LowStockSeeder::class,
+            ONOSeeder::class,
+            KoinsSeeder::class
         ]);
     }
 }

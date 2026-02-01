@@ -64,7 +64,7 @@ body {
 .mission-banner {
     width: 100%;
     padding: 3px 7px 3px; 
-    height: 85px;          /* pastikan FIX height */
+    height: 90px;          /* pastikan FIX height */
     overflow: hidden;
     border-radius: 12px;
     aspect-ratio: 16 / 5;
