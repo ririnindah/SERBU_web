@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('mission_status')->default(0);
 
             $table->index(['outlet_id', 'brand', 'flag_mission']);
-            $table->unique('uuid');
+            // $table->unique('uuid');
         });
     }
 
