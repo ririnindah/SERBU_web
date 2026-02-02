@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('koins', function (Blueprint $table) {
             $table->id();
-            $table->string('outlet_id', 8);
+            $table->string('outlet_id', 12);
             $table->string('brand', 3);
             $table->integer(column: 'koin')->default(0);
 

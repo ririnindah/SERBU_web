@@ -155,7 +155,7 @@
             </a>
         @endif
 
-        @if (isset($missionData['ono']))
+        {{-- @if (isset($missionData['ono']))
             <a href="{{ url('/outlet-baru') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
@@ -178,7 +178,7 @@
                     </div>
                 </div>
             </a>
-        @endif
+        @endif --}}
 
         <!-- PROGRAM -->
         <div class="section-title mt-4">Program Januari</div>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('low_productivity', function (Blueprint $table) {
             $table->id();
             $table->string('uuid',30);
-            $table->string('outlet_id',8);
+            $table->string('outlet_id',12);
             $table->string('outlet_name', 150);
             $table->string('brand', 3);
             $table->integer('actual')->default(0);
