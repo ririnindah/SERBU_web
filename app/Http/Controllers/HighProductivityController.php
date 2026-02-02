@@ -26,10 +26,8 @@ class HighProductivityController extends Controller
 
         $uuid = 'high_productivity|' . $brand;
 
-        $target = DB::table('high_productivity')
-            ->join('target', 'high_productivity.uuid', '=', 'target.uuid')
-            ->where('high_productivity.outlet_id', $outletId)
-            ->where('high_productivity.uuid', $uuid)
+        $target = DB::table('target')
+            ->where('uuid', $uuid)
             ->first();
 
         $actual = DB::table('high_productivity')

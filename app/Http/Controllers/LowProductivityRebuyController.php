@@ -21,10 +21,8 @@ class LowProductivityRebuyController extends Controller
 
         $uuid = 'low_productivity_rebuy|' . $brand;
 
-        $target = DB::table('low_productivity_rebuys')
-            ->join('target', 'low_productivity_rebuys.uuid', '=', 'target.uuid')
-            ->where('low_productivity_rebuys.outlet_id', $outletId)
-            ->where('low_productivity_rebuys.uuid', $uuid)
+        $target = DB::table('target')
+            ->where('uuid', $uuid)
             ->first();
 
         $actual = DB::table('low_productivity_rebuys')

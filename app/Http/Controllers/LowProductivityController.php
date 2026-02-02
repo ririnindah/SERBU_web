@@ -20,10 +20,8 @@ class LowProductivityController extends Controller
 
         $uuid = 'low_productivity_voucher|' . $brand;
 
-        $target = DB::table('low_productivity')
-            ->join('target', 'low_productivity.uuid', '=', 'target.uuid')
-            ->where('low_productivity.outlet_id', $outletId)
-            ->where('low_productivity.uuid', $uuid)
+        $target = DB::table('target')
+            ->where('uuid', $uuid)
             ->first();
 
         $actual = DB::table('low_productivity')

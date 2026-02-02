@@ -127,7 +127,9 @@
                             @endif
                         </div>
 
-                        <div class="step-reward">{{ $reward }}</div>
+                        <div class="step-reward">
+                            {{ number_format($reward, 0, ',', '.') }}
+                        </div>
                         <div class="step-day">Misi {{ $i }}</div>
                     </div>
                 @endfor
