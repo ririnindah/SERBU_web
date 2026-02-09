@@ -95,7 +95,11 @@
                     </div>
 
                     <p class="ach-desc">
-                        Target <strong>IDR {{ number_format($targetVal,0,',','.') }}</strong> telah tercapai.
+                        @if (in_array($mission['label'], ['Low Productivity Voucher', 'Low Productivity Rebuy']))
+                            Target <strong>Hit {{ number_format($targetVal,0,',','.') }}</strong> telah tercapai.
+                        @else
+                            Target <strong>IDR {{ number_format($targetVal,0,',','.') }}</strong> telah tercapai.
+                        @endif
                     </p>
 
                     <div class="ach-reward">

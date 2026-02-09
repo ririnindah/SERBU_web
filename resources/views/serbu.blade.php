@@ -181,7 +181,7 @@
         @endif --}}
 
         <!-- PROGRAM -->
-        <div class="section-title mt-4">Program Januari</div>
+        {{-- <div class="section-title mt-4">Program Januari</div> --}}
 
         <div class="banner-wrapper">
             <div id="serbuCarousel" class="carousel slide" data-bs-ride="carousel">
