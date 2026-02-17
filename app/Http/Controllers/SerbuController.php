@@ -91,6 +91,7 @@ class SerbuController extends Controller
 
             // hitung
             $targetValue = $target ? ($target->{'target' . $missionFlag} ?? 0) : 0;
+            $targetValueMax = $target ? ($target->{'target' . 5} ?? 0) : 0;
             $actualValue = $actual ? ($actual->actual ?? 0) : 0;
             $incentive = $target ? ($target->{'incentive' . $missionFlag} ?? 0) : 0;
             $remaining = max($targetValue - $actualValue, 0);
@@ -98,6 +99,8 @@ class SerbuController extends Controller
             $missionData[$key] = [
                 'remaining' => $remaining,
                 'incentive' => $incentive,
+                'actual' => $actualValue, 
+                'target' => $targetValueMax
             ];
         }
 

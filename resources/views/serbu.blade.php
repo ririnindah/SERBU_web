@@ -53,6 +53,8 @@
         </a>
     </div>
 
+    {{-- @dd($missionData['low_productivity_rebuy']['target']) --}}
+
     <div class="content-wrapper">
 
         @if (isset($missionData['high_productivity']))
@@ -66,9 +68,13 @@
                         <div>
                             <div class="mission-title">Misi Kejar Target</div>
                             <div class="mission-reward">
-                                IDR {{ number_format($missionData['high_productivity']['remaining'], 0, ',', '.') }}
-                                lagi untuk mendapatkan
-                                KOIN {{ number_format($missionData['high_productivity']['incentive'], 0, ',', '.') }}
+                                @if ($missionData['high_productivity']['actual'] >= $missionData['high_productivity']['target'])
+                                    Selamat Telah Menyelesaikan 5 Misi
+                                @else
+                                    IDR {{ number_format($missionData['high_productivity']['remaining'], 0, ',', '.') }}
+                                    lagi untuk mendapatkan
+                                    KOIN {{ number_format($missionData['high_productivity']['incentive'], 0, ',', '.') }}
+                                @endif
                             </div>
                         </div>
 
@@ -91,9 +97,13 @@
                         <div>
                             <div class="mission-title">Misi Kejar Transaksi Voucher</div>
                             <div class="mission-reward">
-                                {{ number_format($missionData['low_productivity_voucher']['remaining'], 0, ',', '.') }}
-                                hit lagi untuk mendapatkan
-                                KOIN {{ number_format($missionData['low_productivity_voucher']['incentive'], 0, ',', '.') }}
+                                @if ($missionData['low_productivity_voucher']['actual'] >= $missionData['low_productivity_voucher']['target'])
+                                    Selamat Telah Menyelesaikan 5 Misi
+                                @else
+                                    {{ number_format($missionData['low_productivity_voucher']['remaining'], 0, ',', '.') }}
+                                    hit lagi untuk mendapatkan
+                                    KOIN {{ number_format($missionData['low_productivity_voucher']['incentive'], 0, ',', '.') }}
+                                @endif
                             </div>
                         </div>
 
@@ -116,9 +126,13 @@
                         <div>
                             <div class="mission-title">Misi Kejar Transaksi Rebuy</div>
                             <div class="mission-reward">
-                                {{ number_format($missionData['low_productivity_rebuy']['remaining'], 0, ',', '.') }}
-                                hit lagi untuk mendapatkan
-                                KOIN {{ number_format($missionData['low_productivity_rebuy']['incentive'], 0, ',', '.') }}
+                                @if ($missionData['low_productivity_rebuy']['actual'] >= $missionData['low_productivity_rebuy']['target'])
+                                    Selamat Telah Menyelesaikan 5 Misi
+                                @else
+                                    {{ number_format($missionData['low_productivity_rebuy']['remaining'], 0, ',', '.') }}
+                                    hit lagi untuk mendapatkan
+                                    KOIN {{ number_format($missionData['low_productivity_rebuy']['incentive'], 0, ',', '.') }}
+                                @endif
                             </div>
                         </div>
 

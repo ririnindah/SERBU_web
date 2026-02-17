@@ -24,16 +24,14 @@
         
         <div class="mission-high-productivy">
             <div class="mission-banner">
-                <div class="mission-banner">
-                    <img src="{{ asset('assets/CTA/' . (session('user.brand') ?? 'default') . ' - High Productivity.png') }}">
-                </div>
+                <img src="{{ asset('assets/CTA/' . (session('user.brand') ?? 'default') . ' - High Productivity.png') }}">
             </div>
 
             @php
                 $missionFlag = $actual->flag_mission ?? 0;
                 $missionStatus = $actual->mission_status ?? 0;
-                $targetValue = $target->{'target5'} ?? 0;
-                // $targetValue = $target->{'target'.$missionFlag} ?? 0;
+                $targetValue = $target->{'target'.$missionFlag} ?? 0;
+                $targetValueMax = $target->{'target5'};
                 $actualValue = $actual->actual ?? 0;
                 $incentive = $target->{'incentive'.$missionFlag} ?? 0;
 
@@ -45,7 +43,11 @@
                     ? min(($actualValue / $targetValue) * 100, 100)
                     : 0;
 
-                $sisaHari = max(($targetValue) - ($actual->actual ?? 0), 0);
+                if ($actualValue >= $targetValueMax) {
+                    $sisaHari = 0;
+                } else {
+                    $sisaHari = max(($targetValue) - ($actual->actual ?? 0), 0);
+                }
 
                 if ($sisaHari == 0) {
                     for ($i = 1; $i <= $missionFlag; $i++) {
@@ -56,7 +58,6 @@
                         $totalIncentive += $target->{'incentive'.$i} ?? 0;
                     }
                 }
-
             @endphp
 
             {{-- @dd($sisaHari) --}}
