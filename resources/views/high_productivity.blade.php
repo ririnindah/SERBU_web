@@ -25,14 +25,15 @@
         <div class="mission-high-productivy">
             <div class="mission-banner">
                 <div class="mission-banner">
-                    <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - High Productivity.png') }}">
+                    <img src="{{ asset('assets/CTA/' . (session('user.brand') ?? 'default') . ' - High Productivity.png') }}">
                 </div>
             </div>
 
             @php
                 $missionFlag = $actual->flag_mission ?? 0;
                 $missionStatus = $actual->mission_status ?? 0;
-                $targetValue = $target->{'target'.$missionFlag} ?? 0;
+                $targetValue = $target->{'target5'} ?? 0;
+                // $targetValue = $target->{'target'.$missionFlag} ?? 0;
                 $actualValue = $actual->actual ?? 0;
                 $incentive = $target->{'incentive'.$missionFlag} ?? 0;
 
@@ -40,62 +41,75 @@
 
                 $totalIncentive = 0;
 
-                for ($i = 1; $i <= $achievedCount; $i++) {
-                    $totalIncentive += $target->{'incentive'.$i} ?? 0;
-                }
-
                 $percentage = $targetValue > 0
                     ? min(($actualValue / $targetValue) * 100, 100)
                     : 0;
 
                 $sisaHari = max(($targetValue) - ($actual->actual ?? 0), 0);
+
+                if ($sisaHari == 0) {
+                    for ($i = 1; $i <= $missionFlag; $i++) {
+                        $totalIncentive += $target->{'incentive'.$i} ?? 0;
+                    }
+                } else {
+                    for ($i = 1; $i <= $achievedCount; $i++) {
+                        $totalIncentive += $target->{'incentive'.$i} ?? 0;
+                    }
+                }
+
             @endphp
 
-            <div class="section-title mt-2">Misi Kejar Target</div>
+            {{-- @dd($sisaHari) --}}
 
-                        {{-- MISI --}}
-            <div class="mission-label">
-                Misi {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
+            {{-- <div class="section-title mt-2">Misi Kejar Target</div> --}}
+
+            {{-- MISI --}}
+            <div class="section-title mt-3">
+                @if ($sisaHari == 0 || $missionStatus == 1)
+                    Selamat Telah Menyelesaikan Semua Misi
+                @else
+                    Sekarang di Misi {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
+                @endif
             </div>
-            
-            <div class="performance-card">
-                <div class="performance-header">
-                    <div class="performance-target">
-                        {{ number_format($actualValue ?? 0, 0, ',', '.') }}
-                    </div>
-                    <div class="performance-actual">
-                        {{ number_format($targetValue, 0, ',', '.') }}
-                    </div>
-                </div>
 
-                <div class="performance-row">
-                    <div class="performance-bar">
-                        <div class="performance-fill high" style="width: {{ $percentage }}%">
-                            <div class="performance-bubble bubble-high">
-                                {{ number_format($percentage, 0) }}%
-                            </div>
+            @if ($sisaHari != 0 )
+                <div class="performance-card">
+                    <div class="performance-header">
+                        <div class="performance-target">
+                            {{ number_format($actualValue ?? 0, 0, ',', '.') }}
+                        </div>
+                        <div class="performance-actual">
+                            {{ number_format($targetValue, 0, ',', '.') }}
                         </div>
                     </div>
 
-                    <div class="performance-text">
-                        @if ($sisaHari == 0 && $missionStatus == 1)
-                            Selamat anda mendapatkan incentive sebesar
-                        @else
-                            Kejar IDR {{ number_format($sisaHari, 0, ',', '.') }} untuk dapatkan incentive
-                        @endif
-                    </div>
-                    {{-- {{ dd($incentive) }} --}}
-                    <div class="performance-incentive">
-                        IDR {{ number_format($incentive, 0, ',', '.') }}
+                    <div class="performance-row">
+                        <div class="performance-bar">
+                            <div class="performance-fill high" style="width: {{ $percentage }}%">
+                                <div class="performance-bubble bubble-high">
+                                    {{ number_format($percentage, 0) }}%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="performance-text">
+                            Kejar IDR {{ number_format($sisaHari, 0, ',', '.') }} untuk dapatkan
+                        </div>
+                        {{-- {{ dd($incentive) }} --}}
+                        <div class="performance-incentive">
+                            KOIN {{ number_format($incentive, 0, ',', '.') }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <!-- MISSION STEPS -->
             <div class="mission-steps">
                 @for ($i = 1; $i <= 5; $i++)
                     @php
                         if ($i < $missionFlag) {
+                            $status = 'done';
+                        } elseif ($i == $missionFlag && $sisaHari == 0) {
                             $status = 'done';
                         } elseif ($i == $missionFlag) {
                             $status = 'active';
@@ -151,13 +165,17 @@
                     <div class="mission-summary-body">
                         <div class="mission-summary-title">
                             Total 
-                            {{ number_format($achievedCount ?? 0, 0, ',', '.') }}
+                            @if ($sisaHari == 0 || $missionStatus == 1)
+                                {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
+                            @else
+                                {{ number_format($achievedCount ?? 0, 0, ',', '.') }}
+                            @endif
                             Misi Tercapai
                         </div>
 
                         <div class="mission-summary-incentive">
                             Total 
-                            <span>IDR {{ number_format($totalIncentive ?? 0, 0, ',', '.') }}</span> 
+                            <span>KOIN {{ number_format($totalIncentive ?? 0, 0, ',', '.') }}</span> 
                             berhasil diraih
                         </div>
                     </div>

@@ -50,7 +50,7 @@
 
             @php
                 $labelMap = [
-                    'High Productivity'        => 'Misi Kejar Target',
+                    'High Productivity'        => 'Misi Kejar Target Saldo',
                     'Low Productivity Voucher' => 'Misi Kejar Transaksi Voucher',
                     'Low Productivity Rebuy'   => 'Misi Kejar Transaksi Rebuy',
                     'Low Stock'                => 'Misi Kejar Target Saldo',

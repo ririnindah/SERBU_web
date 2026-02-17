@@ -68,7 +68,7 @@
                             <div class="mission-reward">
                                 IDR {{ number_format($missionData['high_productivity']['remaining'], 0, ',', '.') }}
                                 lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['high_productivity']['incentive'], 0, ',', '.') }}
+                                KOIN {{ number_format($missionData['high_productivity']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>
 
@@ -93,7 +93,7 @@
                             <div class="mission-reward">
                                 {{ number_format($missionData['low_productivity_voucher']['remaining'], 0, ',', '.') }}
                                 hit lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['low_productivity_voucher']['incentive'], 0, ',', '.') }}
+                                KOIN {{ number_format($missionData['low_productivity_voucher']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>
 
@@ -118,7 +118,7 @@
                             <div class="mission-reward">
                                 {{ number_format($missionData['low_productivity_rebuy']['remaining'], 0, ',', '.') }}
                                 hit lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['low_productivity_rebuy']['incentive'], 0, ',', '.') }}
+                                KOIN {{ number_format($missionData['low_productivity_rebuy']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>
 
@@ -143,7 +143,7 @@
                             <div class="mission-reward">
                                 {{ number_format($missionData['low_stock']['remaining'], 0, ',', '.') }}
                                 hari lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['low_stock']['incentive'], 0, ',', '.') }}
+                                KOIN {{ number_format($missionData['low_stock']['incentive'], 0, ',', '.') }}
                             </div>
                         </div>
 

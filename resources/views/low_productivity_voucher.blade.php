@@ -24,7 +24,7 @@
         
         <div class="mission-high-productivy">
             <div class="mission-banner">
-                <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - Low Productivity Voucher.png') }}">
+                <img src="{{ asset('assets/CTA/' . (session('user.brand') ?? 'default') . ' - Low Productivity Voucher.png') }}">
             </div>
 
             @php
@@ -49,11 +49,11 @@
                 $sisaHari = max(($targetValue) - ($actual->actual ?? 0), 0);
             @endphp
 
-            <div class="section-title mt-2">Misi Kejar Transaksi</div>
+            {{-- <div class="section-title mt-2">Misi Kejar Transaksi</div> --}}
 
                         {{-- MISI --}}
-            <div class="mission-label">
-                Misi {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
+            <div class="section-title mt-3">
+                Sekarang di Misi {{ number_format($missionFlag ?? 0, 0, ',', '.') }}
             </div>
             
             <div class="performance-card">
@@ -77,14 +77,14 @@
 
                     <div class="performance-text">
                         @if ($sisaHari == 0 && $missionStatus == 1)
-                            Selamat anda mendapatkan incentive sebesar
+                            Selamat anda mendapatkan KOIN sebesar
                         @else
-                            Kejar {{ number_format($sisaHari, 0, ',', '.') }} hit untuk dapatkan incentive
+                            Kejar {{ number_format($sisaHari, 0, ',', '.') }} hit untuk dapatkan 
                         @endif
                     </div>
                     {{-- {{ dd($incentive) }} --}}
                     <div class="performance-incentive">
-                        IDR {{ number_format($incentive, 0, ',', '.') }}
+                        KOIN {{ number_format($incentive, 0, ',', '.') }}
                     </div>
                 </div>
             </div>
@@ -155,7 +155,7 @@
 
                         <div class="mission-summary-incentive">
                             Total 
-                            <span>IDR {{ number_format($totalIncentive ?? 0, 0, ',', '.') }}</span> 
+                            <span>KOIN {{ number_format($totalIncentive ?? 0, 0, ',', '.') }}</span> 
                             berhasil diraih
                         </div>
                     </div>

@@ -28,12 +28,29 @@
         align-items: center;
     }
 
+    .btn-back {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .btn-back i {
+        transform: scale(1.25);
+    }
+
     /* STORY BUTTON (HEAD ONLY) */
     .story-btn {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         background: linear-gradient(15deg, #fff700, #f94df0);
+        margin-left: 15px;
         padding: 2px;
         display: flex;
         align-items: center;
@@ -211,12 +228,19 @@
         @endphp
 
         <div class="header-left">
+
+            <button class="btn-back"
+                onclick="window.location.href='{{ request()->is('serbu') ? url('/login') : url('/serbu') }}'">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+
             <div class="story-btn" onclick="openStory()">
                 <img src="{{ asset('assets/icon/icon.png') }}" alt="Story">
             </div>
         </div>
 
         <div class="header-right">
+
             <div class="badge-koin">
                 <img src="{{ asset('assets/icon/koin.png') }}" alt="Koin" class="icon-coin">
                 {{ number_format($userCoin, 0, ',', '.') }}

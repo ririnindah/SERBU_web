@@ -11,7 +11,7 @@ use App\Http\Controllers\OnoController;
 use App\Models\HighProductivity;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::post('/login', [AuthController::class, 'login']);

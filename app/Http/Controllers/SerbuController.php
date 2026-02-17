@@ -104,13 +104,8 @@ class SerbuController extends Controller
         return view('serbu', compact('user', 'missionData'));
     }
 
-    public function ach()
+public function ach()
     {
-        // DB::flushQueryLog();
-        // DB::enableQueryLog();
-
-        // $start = microtime(true);
-
         $outletId = session('user.outlet_id');
         $brand = session('user.brand');
 
@@ -120,19 +115,41 @@ class SerbuController extends Controller
             'low_productivity_rebuy' => ['table' => 'low_productivity_rebuys', 'label' => 'Low Productivity Rebuy'],
             'high_productivity' => ['table' => 'high_productivity', 'label' => 'High Productivity'],
             'ono' => ['table' => 'ono', 'label' => 'ONO'],
+            'schema1' => ['table' => 'schema1', 'label' => 'Schema 1'],
+            'schema2' => ['table' => 'schema2', 'label' => 'Schema 2'],
         ];
+
+        // 🔥 Ambil data mission aktif dari serbu_users
+        $userMissionFlags = DB::table('serbu_users')
+            ->where('outlet_id', $outletId)
+            ->where('brand', $brand)
+            ->first();
+
+        if (!$userMissionFlags) {
+            return view('serbu_ach', [
+                'achMissions' => [],
+                'totalIncentiveAch' => 0
+            ]);
+        }
+
+        // 🔥 Filter mission: hanya yang bernilai 1
+        $activeMissions = array_filter(
+            $missions,
+            function ($key) use ($userMissionFlags) {
+                return isset($userMissionFlags->$key) && $userMissionFlags->$key == 1;
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
         $achMissions = [];
         $totalIncentiveAch = 0;
 
-        // 🔥 OPTIMASI: Cache maxFlag per outlet dan brand selama 30 menit (asumsi jarang berubah)
-        // Ini mengurangi query max() menjadi cache hit jika sudah ada
         $maxFlags = Cache::remember(
             "max_flags:{$outletId}:{$brand}",
             now()->addMinutes(30),
-            function () use ($missions, $outletId, $brand) {
+            function () use ($activeMissions, $outletId, $brand) {
                 $flags = [];
-                foreach ($missions as $key => $mission) {
+                foreach ($activeMissions as $key => $mission) {
                     $flags[$key] = DB::table($mission['table'])
                         ->where('outlet_id', $outletId)
                         ->where('brand', $brand)
@@ -142,14 +159,11 @@ class SerbuController extends Controller
             }
         );
 
-        foreach ($missions as $key => $mission) {
+        foreach ($activeMissions as $key => $mission) {
             $maxFlag = $maxFlags[$key] ?? 0;
 
-            if (!$maxFlag || $maxFlag <= 1) {
-                continue;
-            }
+            if (!$maxFlag || $maxFlag <= 1) continue;
 
-            // 🔥 CACHE TARGET (1 JAM) - tetap dipertahankan
             $uuid = $key . '|' . $brand;
 
             $target = Cache::remember(
@@ -162,8 +176,6 @@ class SerbuController extends Controller
 
             if (!$target) continue;
 
-            // 🔥 OPTIMASI: Cache perhitungan incentive per uuid selama 1 jam
-            // Ini menghindari loop hitung ulang jika target sudah di-cache
             $incentiveKey = "incentive:{$uuid}:{$maxFlag}";
             $incentiveForMission = Cache::remember(
                 $incentiveKey,
@@ -187,16 +199,8 @@ class SerbuController extends Controller
             ];
         }
 
-        // $time = round((microtime(true) - $start) * 1000, 2);
-        // $queries = DB::getQueryLog();
-
-        // dd([
-        //     'total_time_ms' => $time,
-        //     'total_query' => count($queries),
-        //     'queries' => $queries, // hapus kalau kepanjangan
-        // ]);
-
         return view('serbu_ach', compact('achMissions', 'totalIncentiveAch'));
     }
+
 
 }
