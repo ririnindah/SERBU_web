@@ -34,6 +34,16 @@ class SerbuUser extends Authenticatable
         return $this->hasMany(Koin::class, 'outlet_id', 'outlet_id');
     }
 
+    public function RedeemKoin()
+    {
+        return $this->hasMany(RedeemKoin::class, 'outlet_id', 'outlet_id');
+    }
+
+    public function WhitelistedKoin()
+    {
+        return $this->hasMany(WhitelistedKoin::class, 'outlet_id', 'outlet_id');
+    }
+
     protected $primaryKey = 'outlet_id';
     public $incrementing = false;
 

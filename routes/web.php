@@ -8,6 +8,7 @@ use App\Http\Controllers\HighProductivityController;
 use App\Http\Controllers\LowProductivityController;
 use App\Http\Controllers\LowProductivityRebuyController;
 use App\Http\Controllers\OnoController;
+use App\Http\Controllers\RedeemKoinController;
 use App\Models\HighProductivity;
 
 Route::get('/', function () {
@@ -34,6 +35,7 @@ Route::middleware('auth.session')->group(function () {
 
     Route::get('/low-productivity-rebuy', [LowProductivityRebuyController::class, 'index']);
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/redeem-koin', [RedeemKoinController::class, 'index']);
+    Route::post('/redeem-koin-process', [RedeemKoinController::class, 'redeem']);
 });

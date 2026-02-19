@@ -17,6 +17,11 @@ class Koin extends Model
         return $this->belongsTo(SerbuUser::class, 'outlet_id', 'outlet_id');
     }
 
+    public function RedeemKoin()
+    {
+        return $this->belongsTo(RedeemKoin::class, 'outlet_id', 'outlet_id');
+    }
+
     protected $primaryKey = 'outlet_id';
     public $incrementing = false;
 

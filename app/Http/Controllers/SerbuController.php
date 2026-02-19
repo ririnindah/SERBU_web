@@ -21,6 +21,13 @@ class SerbuController extends Controller
         $outletId = session('user.outlet_id');
         $brand = session('user.brand');
 
+        $dataRedeem = DB::table('redeem_koins')
+                    ->where('outlet_id', $outletId)
+                    ->first();
+
+        $isRedeemed = $dataRedeem ? 1 : 0;
+        $jumlahKoinRedeem = $dataRedeem ? $dataRedeem->redeem_koin : 0;
+
         $user = DB::table('serbu_users')
             ->where('outlet_id', $outletId)
             ->first();
@@ -104,7 +111,7 @@ class SerbuController extends Controller
             ];
         }
 
-        return view('serbu', compact('user', 'missionData'));
+        return view('serbu', compact('user', 'missionData', 'isRedeemed', 'jumlahKoinRedeem'));
     }
 
 public function ach()

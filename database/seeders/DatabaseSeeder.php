@@ -18,14 +18,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
-            TargetSeeder::class,
-            SerbuUserSeeder::class,
-            HighProductivitySeeder::class,
-            LowProductivitySeeder::class,
-            LowProductivityRebuySeeder::class,
-            LowStockSeeder::class,
-            ONOSeeder::class,
-            KoinsSeeder::class
+            // TargetSeeder::class,
+            // SerbuUserSeeder::class,
+            // HighProductivitySeeder::class,
+            // LowProductivitySeeder::class,
+            // LowProductivityRebuySeeder::class,
+            // LowStockSeeder::class,
+            // ONOSeeder::class,
+            // KoinsSeeder::class
         ]);
     }
 }

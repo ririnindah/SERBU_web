@@ -53,6 +53,55 @@
         </a>
     </div>
 
+    @if ($brand == '3ID' && $isRedeemed == 0)
+        <div class="container-action">
+            <a href="{{ url('/redeem-koin') }}" class="btn-primary-black" style="text-decoration: none;">
+                <svg class="icon-gift" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                    <rect x="2" y="7" width="20" height="5"></rect>
+                    <line x1="12" y1="22" x2="12" y2="7"></line>
+                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                </svg>
+                Redeem Koin Sekarang
+            </a>
+        </div>
+    @else
+        <div class="card-process">
+            <div class="card-process-body">
+                <div class="icon-process">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                    </svg>
+                </div>
+                <div class="text-process">
+                    <p class="process-title">Redeem Sedang Diproses</p>
+                    <p class="process-desc">Redeem KOIN sejumlah 
+                        <strong>{{ number_format($jumlahKoinRedeem ?? 0, 0, ',', '.') }}</strong> 
+                        sedang dalam proses.</p>
+                </div>
+            </div>
+            <div class="process-shimmer"></div>
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert-success-container">
+            <div class="alert-content">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <div class="alert-text-group">
+                    <span class="alert-title">Berhasil!</span>
+                    <span class="alert-msg">{{ session('success') }}</span>
+                </div>
+            </div>
+            <div class="progress-bar"></div>
+        </div>
+    @endif
+
     {{-- @dd($missionData['low_productivity_rebuy']['target']) --}}
 
     <div class="content-wrapper">
@@ -195,7 +244,7 @@
         @endif --}}
 
         <!-- PROGRAM -->
-        {{-- <div class="section-title mt-4">Program Januari</div> --}}
+        <div class="section-title mt-4">Program Februari</div>
 
         <div class="banner-wrapper">
             <div id="serbuCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -237,6 +286,16 @@
             bootstrap.Carousel.getInstance(carousel).to(index);
         });
     });
+
+    setTimeout(function() {
+        let alert = document.querySelector('.alert-success-container');
+        if (alert) {
+            alert.style.transition = "all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)";
+            alert.style.opacity = "0";
+            alert.style.transform = "translateY(-20px)"; // Efek melayang naik saat hilang
+            setTimeout(() => alert.remove(), 600);
+        }
+    }, 4000);
 
 </script>
 
