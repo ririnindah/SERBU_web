@@ -23,7 +23,7 @@
     @include('partials.header')
 
     <div class="content-body">
-        <h2 class="title">Redeem Koin Serbu</h2>
+        <h2 class="title">Redeem Koin</h2>
         <h4 class="title-1">KOIN yang bisa di redeem adalah 
             {{ number_format($koin, 0, ',', '.') }}
         </h4>
@@ -66,6 +66,18 @@
                 @error('jumlah_koin')
                     <span class="error-text">{{ $message }}</span>
                 @enderror
+            </div>
+
+            <!-- TnC Section -->
+            <div class="tnc">
+                <strong>Syarat & Ketentuan Redeem KOIN</strong>
+                <ul>
+                    <li>Periode program: 20 – 28 Februari 2026.</li>
+                    <li>Setiap pengguna hanya dapat melakukan redeem KOIN 1 kali selama periode ini.</li>
+                    <li>KOIN yang telah diredeem tidak dapat dikembalikan.</li>
+                    <li>KOIN yang berlaku untuk redeem adalah KOIN program 2025.</li>
+                    <li>Minimal KOIN yang dapat diredeem adalah 500 KOIN.</li>
+                </ul>
             </div>
 
             <div class="form-check">
