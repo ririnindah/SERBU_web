@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.app-wrapper {
+    width: 100%;
+    max-width: 414px;
+    height: 100dvh;
+    background: #f3f3f3;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* CONTENT */
+.content-wrapper {
+    padding: 20px;
+}

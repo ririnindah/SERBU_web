@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ono', function (Blueprint $table) {
+        Schema::create('kro_turs', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid',20);
-            $table->string('outlet_id',12);
+            $table->date('as_of');
+            $table->string('outlet_id', 12);
             $table->string('outlet_name', 150);
             $table->string('brand', 3);
-            $table->integer('actual')->default(0);
-            $table->integer('flag_mission')->default(0);
-            $table->integer('mission_status')->default(0);
-
-            $table->index(['outlet_id', 'brand', 'flag_mission']);
-            // $table->unique('uuid');
+            $table->integer('hit')->default(0);
+            $table->integer('amount')->default(0);
         });
     }
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ono');
+        Schema::dropIfExists('kro_turs');
     }
 };

@@ -31,16 +31,16 @@ body {
     background: #ffffff;
 }
 
+/* CONTENT */
+.content-wrapper {
+    padding: 20px;
+}
+
 .mission-desc {
     font-size: 13px;
     color: #6B7280;
     line-height: 1.6;
     margin-bottom: 14px; /* jarak ke bar */
-}
-
-/* CONTENT */
-.content-wrapper {
-    padding: 20px;
 }
 
 .performance-card {

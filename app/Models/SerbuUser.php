@@ -24,14 +24,14 @@ class SerbuUser extends Authenticatable
         return $this->hasMany(LowProductivity::class, 'outlet_id', 'outlet_id');
     }
 
-    public function Ono()
-    {
-        return $this->hasMany(Ono::class, 'outlet_id', 'outlet_id');
-    }
-
     public function Koin()
     {
         return $this->hasMany(Koin::class, 'outlet_id', 'outlet_id');
+    }
+
+    public function Incentive()
+    {
+        return $this->hasMany(Incentive::class, 'outlet_id', 'outlet_id');
     }
 
     public function RedeemKoin()
@@ -51,5 +51,9 @@ class SerbuUser extends Authenticatable
         'outlet_name',
         'brand',
         'hit'
+        // ,
+        // 'region',
+        // 'area',
+        // 'branch'
     ];
 }

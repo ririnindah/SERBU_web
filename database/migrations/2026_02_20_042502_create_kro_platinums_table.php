@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ono_m2_s', function (Blueprint $table) {
+        Schema::create('kro_platinums', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->date('as_of');
+            $table->integer('rank')->default(0);
+            $table->string('outlet_id', 12);
+            $table->string('outlet_name', 150);
+            $table->string('brand', 3);
+            $table->integer('amount')->default(0);
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ono_m2_s');
+        Schema::dropIfExists('kro_platinums');
     }
 };

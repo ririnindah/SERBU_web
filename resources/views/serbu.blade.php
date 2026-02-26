@@ -40,6 +40,8 @@
         }
     @endphp
 
+   {{-- @dd($missionData) --}}
+
     <!-- Button Active -->
     <div class="mission-tabs">
         <a href="{{ url('/serbu') }}"
@@ -53,6 +55,7 @@
         </a>
     </div>
 
+    <!-- Redeem Koin -->
     @if ($brand == '3ID' && $isRedeemed == 0)
         <div class="container-action">
             <a href="{{ url('/redeem-koin') }}" class="btn-primary-black" style="text-decoration: none;">
@@ -85,6 +88,7 @@
         </div>
     @endif
 
+    {{-- session --}}
     @if(session('success'))
         <div class="alert-success-container">
             <div class="alert-content">
@@ -102,10 +106,11 @@
         </div>
     @endif
 
-    {{-- @dd($missionData['low_productivity_rebuy']['target']) --}}
+    {{-- @dd($missionData['kro_turs']['actual']) --}}
 
     <div class="content-wrapper">
 
+        {{-- High Productivity --}}
         @if (isset($missionData['high_productivity']))
             <a href="{{ url('/high-productivity') }}" class="mission-link">
                 <div class="mission-card">
@@ -135,6 +140,7 @@
             </a>
         @endif
 
+        {{-- Low Productivity Voucher --}}
         @if (isset($missionData['low_productivity_voucher']))
             <a href="{{ url('/low-productivity-voucher') }}" class="mission-link">
                 <div class="mission-card">
@@ -164,6 +170,7 @@
             </a>
         @endif
 
+        {{-- Low Productivity Rebuy --}}
         @if (isset($missionData['low_productivity_rebuy']))
             <a href="{{ url('/low-productivity-rebuy') }}" class="mission-link">
                 <div class="mission-card">
@@ -193,6 +200,7 @@
             </a>
         @endif
 
+        {{-- Low Stock --}}
         @if (isset($missionData['low_stock']))
             <a href="{{ url('/low-stock') }}" class="mission-link">
                 <div class="mission-card">
@@ -218,20 +226,20 @@
             </a>
         @endif
 
-        {{-- @if (isset($missionData['ono']))
-            <a href="{{ url('/outlet-baru') }}" class="mission-link">
+        {{-- KRO Turs --}}
+        @if (isset($missionData['kro_turs']))
+            <a href="{{ url('/kro-turs') }}" class="mission-link">
                 <div class="mission-card">
                     <div class="mission-banner">
-                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - ONO.png') }}">
+                        <img src="{{ asset('assets/banner/' . (session('user.brand') ?? 'default') . ' - KRO Turs.png') }}">
                     </div>
 
                     <div class="mission-body">
                         <div>
-                            <div class="mission-title">Outlet Baru</div>
+                            <div class="mission-title">Kejar Pelanggan Baru</div>
                             <div class="mission-reward">
-                                IDR {{ number_format($missionData['ono']['remaining'], 0, ',', '.') }}
-                                sellin lagi untuk mendapatkan
-                                IDR {{ number_format($missionData['ono']['incentive'], 0, ',', '.') }}
+                                Incentive yang sudah didapatkan adalah
+                                {{ number_format($incentive, 0, ',', '.') }}
                             </div>
                         </div>
 
@@ -241,11 +249,12 @@
                     </div>
                 </div>
             </a>
-        @endif --}}
+        @endif
 
         <!-- PROGRAM -->
         <div class="section-title mt-4">Program Februari</div>
 
+        {{-- Program Image --}}
         <div class="banner-wrapper">
             <div id="serbuCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">

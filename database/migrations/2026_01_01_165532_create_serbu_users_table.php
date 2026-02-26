@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('high_productivity')->default(0);
             $table->integer('ono')->default(0);
             $table->integer('schema1')->default(0);
-            $table->integer('schema2')->default(0);
+            $table->integer('schema1')->default(0);
 
             $table->unique(['outlet_id']);
             $table->index(['outlet_id']);

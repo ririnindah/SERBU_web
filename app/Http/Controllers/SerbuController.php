@@ -54,10 +54,10 @@ class SerbuController extends Controller
                 'table' => 'high_productivity',
                 'uuid' => 'high_productivity|' . $brand,
             ],
-            'ono' => [
-                'flag' => $user->ono,
-                'table' => 'ono',
-                'uuid' => 'ono|' . $brand,
+            'kro_turs' => [
+                'flag' => $user->high_productivity,
+                'table' => 'kro_turs',
+                'uuid' => 'kro_turs|' . $brand,
             ],
         ];
 
@@ -67,12 +67,19 @@ class SerbuController extends Controller
         });
 
         // Optimasi: Ambil semua actual dalam satu query union
-        $actualQueries = [];
         foreach ($activeMissions as $key => $mission) {
+
+            if ($mission['table'] === 'kro_turs') {
+                $selectRaw = "'{$key}' as mission_key, hit as actual, 1 as flag_mission";
+            } else {
+                $selectRaw = "'{$key}' as mission_key, actual, flag_mission";
+            }
+
             $actualQueries[] = DB::table($mission['table'])
-                ->selectRaw("'{$key}' as mission_key, actual, flag_mission")
+                ->selectRaw($selectRaw)
                 ->where('outlet_id', $outletId);
         }
+
         $actualResults = collect($actualQueries)->reduce(function ($carry, $query) {
             return $carry ? $carry->unionAll($query) : $query;
         })->get();
@@ -111,7 +118,12 @@ class SerbuController extends Controller
             ];
         }
 
-        return view('serbu', compact('user', 'missionData', 'isRedeemed', 'jumlahKoinRedeem'));
+        $incentive = DB::table('incentives')
+                ->where('outlet_id', $outletId)
+                ->where('brand', $brand) 
+                ->value('incentive') ?? 0;
+
+        return view('serbu', compact('user', 'missionData', 'isRedeemed', 'jumlahKoinRedeem', 'incentive'));
     }
 
 public function ach()
@@ -124,9 +136,6 @@ public function ach()
             'low_productivity_voucher' => ['table' => 'low_productivity', 'label' => 'Low Productivity Voucher'],
             'low_productivity_rebuy' => ['table' => 'low_productivity_rebuys', 'label' => 'Low Productivity Rebuy'],
             'high_productivity' => ['table' => 'high_productivity', 'label' => 'High Productivity'],
-            'ono' => ['table' => 'ono', 'label' => 'ONO'],
-            'schema1' => ['table' => 'schema1', 'label' => 'Schema 1'],
-            'schema2' => ['table' => 'schema2', 'label' => 'Schema 2'],
         ];
 
         // 🔥 Ambil data mission aktif dari serbu_users

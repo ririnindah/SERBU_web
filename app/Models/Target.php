@@ -26,11 +26,6 @@ class Target extends Model
         return $this->hasMany(LowProductivity::class, 'uuid', 'uuid');
     }
 
-    public function Ono()
-    {
-        return $this->hasMany(Ono::class, 'uuid', 'uuid');
-    }
-
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $fillable = [

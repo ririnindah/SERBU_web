@@ -13,12 +13,12 @@ class RedeemKoinController extends Controller
         $outletId = session('user.outlet_id');
         $brand = session('user.brand');
 
-        $koin = DB::table('serbu_web.whitelisted_koins')
+        $koin = DB::table('whitelisted_koins')
                 ->where('outlet_id', $outletId)
                 ->where('brand', $brand) 
                 ->value('koin') ?? 0;
 
-        $msisdn = DB::table('serbu_web.whitelisted_koins')
+        $msisdn = DB::table('whitelisted_koins')
                 ->where('outlet_id', $outletId)
                 ->where('brand', $brand) 
                 ->value(column: 'msisdn') ?? 0;
@@ -31,12 +31,12 @@ class RedeemKoinController extends Controller
         $outletId = session('user.outlet_id');
         $brand = session('user.brand');
 
-        $koin = DB::table('serbu_web.whitelisted_koins')
+        $koin = DB::table('whitelisted_koins')
                 ->where('outlet_id', $outletId)
                 ->where('brand', $brand) 
                 ->value('koin') ?? 0;
 
-        $msisdn = DB::table('serbu_web.whitelisted_koins')
+        $msisdn = DB::table('whitelisted_koins')
             ->where('outlet_id', $outletId)
             ->where('brand', $brand) 
             ->value(column: 'msisdn') ?? 0;

@@ -5,9 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LowStockController;
 use App\Http\Controllers\SerbuController;
 use App\Http\Controllers\HighProductivityController;
+use App\Http\Controllers\KroTursController;
+use App\Http\Controllers\KroGoldController;
 use App\Http\Controllers\LowProductivityController;
 use App\Http\Controllers\LowProductivityRebuyController;
-use App\Http\Controllers\OnoController;
 use App\Http\Controllers\RedeemKoinController;
 use App\Models\HighProductivity;
 
@@ -27,8 +28,6 @@ Route::middleware('auth.session')->group(function () {
 
     Route::get('/low-stock', [LowStockController::class, 'index']);
 
-    Route::get('/outlet-baru', [OnoController::class, 'index']);
-
     Route::get('/high-productivity', [HighProductivityController::class, 'index']);
 
     Route::get('/low-productivity-voucher', [LowProductivityController::class, 'index']);
@@ -38,4 +37,7 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/redeem-koin', [RedeemKoinController::class, 'index']);
     Route::post('/redeem-koin-process', [RedeemKoinController::class, 'redeem']);
+
+    Route::get('/kro-turs', [KroTursController::class, 'index']);
+    Route::get('/kro-gold', [KroGoldController::class, 'index']);
 });

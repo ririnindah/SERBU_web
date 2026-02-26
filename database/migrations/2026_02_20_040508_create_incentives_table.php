@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ono_m1_s', function (Blueprint $table) {
+        Schema::create('incentives', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('outlet_id', 12);
+            $table->string('brand', 3);
+            $table->integer(column: 'incentive')->default(0);
+
+            $table->unique(['outlet_id']);
+            $table->index(['outlet_id']);
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ono_m1_s');
+        Schema::dropIfExists('incentives');
     }
 };
